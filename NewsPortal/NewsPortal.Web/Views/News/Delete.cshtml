@@ -1,0 +1,29 @@
+﻿@model NewsPortal.Model.Models.Article
+@{
+    ViewBag.Title = "Delete article";
+}
+
+<div class="h2 mt-5">
+    Are you sure you want to delete this?
+</div>
+<div class="container-fluid mt-5">
+    <table class="table">
+        <tr>
+            <td>@Html.LabelFor(model => model.Title)</td>
+            <td>@Html.DisplayFor(model => model.Title)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.Category)</td>
+            <td>@Html.DisplayFor(model => model.Category)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.PublishingDate)</td>
+            <td>@Html.DisplayFor(model => model.PublishingDate)</td>
+        </tr>
+    </table>
+    @using (Html.BeginForm())
+    {
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <input type="reset" value="Cancel" class="btn btn-light btn-outline-dark" onclick="window.location.href = '@Url.Action("PublicationsList", "News")'" />
+    }
+</div>

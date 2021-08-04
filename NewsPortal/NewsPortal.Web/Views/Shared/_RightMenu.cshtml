@@ -1,0 +1,13 @@
+﻿@if (Request.IsAuthenticated)
+{
+    <ul class="nav flex-column nav-pills" role="tablist">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="collapse" id="users-tab" href="#collapse">Search</a>
+            <div class="dropdown-menu-right collapse" id="collapse">
+                <a class="dropdown-item" href="@Url.Action("SearchArticles", "Search", new { searchString = "" })">Articles</a>
+                <a class="dropdown-item" href="@Url.Action("SearchUsers", "Search", new { searchString = "" })">Users</a>
+                <a class="dropdown-item" href="@Url.Action("SearchComments", "Search", new { searchString = "" })">Comments</a>
+            </div>
+        </li>
+    </ul>
+}

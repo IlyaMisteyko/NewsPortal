@@ -1,0 +1,24 @@
+﻿@model IEnumerable<NewsPortal.Web.ViewModels.FollowingsViewModel>
+<div class="container-fluid mt-5">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">First name</th>
+                <th scope="col">Last name</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Link</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.FirstName</td>
+                    <td>@user.LastName</td>
+                    <td>@user.Email</td>
+                    <td>@Html.ActionLink("Profile", "UserProfile", "Account", new { user.UserId }, null)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

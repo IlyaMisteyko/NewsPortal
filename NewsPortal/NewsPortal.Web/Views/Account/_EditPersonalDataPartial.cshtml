@@ -1,0 +1,75 @@
+﻿@using Microsoft.AspNet.Identity
+@model NewsPortal.Web.ViewModels.PersonalDataViewModel
+
+<div class="container-fluid mt-5">
+    <div class="row">
+        @using (Html.BeginForm())
+        {
+            @Html.ValidationSummary(true);
+            <div class="form-group">
+                @Html.LabelFor(model => model.FirstName, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FirstName)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.LastName, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LastName)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Gender, new { @class = "form-label" })
+                @if (Model.Gender == true)
+                {
+                    @Html.RadioButtonFor(model => model.Gender, false) <text>Male</text>
+                    @Html.RadioButtonFor(model => model.Gender, true, new { @checked = "checked" })<text> Female</text>
+                }
+                else if (Model.Gender == false)
+                {
+                    @Html.RadioButtonFor(model => model.Gender, false, new { @checked = "checked" })<text> Male</text>
+                    @Html.RadioButtonFor(model => model.Gender, true)<text> Female</text>
+                }
+                else
+                {
+                    @Html.RadioButtonFor(model => model.Gender, false)<text> Male</text>
+                    @Html.RadioButtonFor(model => model.Gender, true)<text> Female</text>
+                }
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.DateOfBirth, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.DateOfBirth, new { @class = "form-control", type="date" })
+                @Html.ValidationMessageFor(model => model.DateOfBirth)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Adress, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.Adress, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Adress)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Country, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.Country, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Country)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.City, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.City, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.City)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.PhoneNumber, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PhoneNumber)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Skype, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.Skype, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Skype)
+            </div>
+            <div class="form-group mt-3">
+                <input type="submit" value="Save" class="btn btn-success" />
+                <input type="reset" value="Cancel" class="btn btn-light btn-outline-dark" onclick="window.location.href = '@Url.Action("PersonalProfile", "Account")'">
+            </div>
+            @Html.Hidden("UserProfileId", Model.UserProfileId)
+            @Html.Hidden("UserId", User.Identity.GetUserId())
+        }
+    </div>
+</div>

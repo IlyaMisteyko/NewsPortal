@@ -1,0 +1,15 @@
+﻿@model NewsPortal.Web.ViewModels.CommentFormViewModel
+<div>
+    @using (Html.BeginForm())
+    {
+        <div>
+            @Html.LabelFor(model => model.Message)
+            @Html.EditorFor(model => model.Message)
+        </div>
+        <p><input type="submit" value="Save" /></p>
+
+        @Html.Hidden("ArticleId", Model.ArticleId)
+        @Html.Hidden("UserId", Model.UserId)
+        @Html.Hidden("ParentCommentId", Model.ParentCommentId)
+    }
+</div>

@@ -1,0 +1,39 @@
+﻿@using Microsoft.AspNet.Identity
+@model NewsPortal.Web.ViewModels.ArticleFormViewModel
+@{
+    ViewBag.Title = "Create article";
+}
+
+<h2 class="mt-5">Create article</h2>
+<div class="container-fluid mt-5">
+    <div class="row">
+        @using (Html.BeginForm("Create", "News", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.ValidationSummary(true);
+            <div class="form-group">
+                @Html.LabelFor(model => model.File, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.File, new { @class = "mb-2", @type = "file" })
+                @Html.ValidationMessageFor(model => model.File)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Title, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.Title, new { @class = "form-control form-control-lg", placeholder = "Enter title for article" })
+                @Html.ValidationMessageFor(model => model.Title)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, new { @class = "form-label" })
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control form-control-lg", placeholder = "Enter text of the article", rows="3" })
+                @Html.ValidationMessageFor(model => model.Description)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Category, new { @class = "form-label" })
+                @Html.DropDownListFor(model => model.Category, Model.CategoryTypes, "Choose the category", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Category)
+            </div>
+            <div class="form-group mt-3">
+                <input type="submit" value="Post article" class="btn btn-primary" />
+            </div>
+            @Html.Hidden("UserId", User.Identity.GetUserId())
+        }
+    </div>
+</div>

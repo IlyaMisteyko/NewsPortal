@@ -1,0 +1,22 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    <ul class="nav flex-column nav-pills" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link" id="news-tab" href="@Url.Action("Index", "Home")">My news</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="profile-tab" href="@Url.Action("UserProfile", "Account", new { userId = User.Identity.GetUserId() })">My profile</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="collapse" id="users-tab" href="#collapseUsers">Users</a>
+            <div class="dropdown-menu-right collapse" id="collapseUsers">
+                <a class="dropdown-item" href="@Url.Action("Followers", "Account")">Followers</a>
+                <a class="dropdown-item" href="@Url.Action("Followings", "Account")">Followings</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="publicationss-tab" href="@Url.Action("PublicationsList", "News")">My publications</a>
+        </li>
+    </ul>
+}

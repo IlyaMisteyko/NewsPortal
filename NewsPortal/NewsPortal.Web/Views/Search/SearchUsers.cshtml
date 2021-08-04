@@ -1,0 +1,66 @@
+﻿@using Microsoft.AspNet.Identity
+@model IEnumerable<NewsPortal.Web.ViewModels.SearchUserViewModel>
+@{
+    ViewBag.Title = "Search users";
+}
+
+<div class="h2 mt-3">
+    Results for "@ViewBag.SearchString" in users
+</div>
+@using (Html.BeginForm("SearchUsers", "Search", FormMethod.Get, new { @class = "form-inline my-2 my-lg-0 mr-5" }))
+{
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" name="searchString">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+}
+<div>
+    @if (Model.Count() == 0)
+    {
+        <div class="alert alert-info mt-3">
+            No results
+        </div>
+    }
+    else
+    {
+        <div class="container-fluid mt-5">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">First name</th>
+                        <th scope="col">Last name</th>
+                        <th scope="col">E-mail</th>
+                        <th scope="col">Link</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <thead>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.FirstName</td>
+                            <td>@user.LastName</td>
+                            <td>@user.Email</td>
+                            <td>@Html.ActionLink("Profile", "UserProfile", "Account", new { user.UserId }, null)</td>
+                            @if (user.UserId == User.Identity.GetUserId())
+                            {
+                                <td></td>
+                            }
+                            else if (user.IsFollowing == false)
+                            {
+                                <td>
+                                    @Html.ActionLink("Follow", "Follow", "Account", new { followingId = user.UserId }, new { @class = "btn btn-primary float-right" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Html.ActionLink("Unfollow", "Unfollow", "Account", new { followingId = user.UserId }, new { @class = "btn btn-outline-primary float-right" })
+                                </td>
+                            }
+                        </tr>
+                    }
+                </thead>
+            </table>
+        </div>
+    }
+</div>
+

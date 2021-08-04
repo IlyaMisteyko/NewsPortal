@@ -1,0 +1,136 @@
+﻿@using Microsoft.AspNet.Identity
+@model NewsPortal.Web.ViewModels.ArticleViewModel
+@{
+    ViewBag.Title = "Index";
+}
+<div style="width: 100%; padding-left: 10%; padding-right: 10%;">
+    <div class="card mt-3">
+        @if (String.IsNullOrEmpty(Model.ImageUrl))
+        {
+            <img alt="ArticleImg" src="@Url.Content("~/Content/ArticlesImages/news-default.jpeg")" class="img-thumbnail shadow"/>
+        }
+        else
+        {
+            <img alt="ArticleImg" src="@Url.Content(Model.ImageUrl)" class="img-thumbnail shadow" style="width: 200px"/>
+        }
+    <div class="card-body">
+        <h2 class="card-title display-4"><b>@Model.Title</b></h2>
+        <p class="card-subtitle mb-2 text-muted"><small>@Model.Category</small></p>
+        <p class="card-text" style="font-size: 20px;">@Model.Description</p>
+        <div class="row">
+            <div class="col-md-2">
+                <p class="card-text">Average mark: @Model.AverageRating</p>
+                <p class="card-text">Count of voters: @Model.Rating[0]</p>
+            </div>
+            <div class="col-md-5">
+                <div class="progress mb-2">
+                    <div class="progress-bar" role="progressbar" style="width: @Model.Rating[5]%">5</div>
+                </div>
+                <div class="progress mb-2">
+                    <div class="progress-bar" role="progressbar" style="width: @Model.Rating[4]%">4</div>
+                </div>
+                <div class="progress mb-2">
+                    <div class="progress-bar" role="progressbar" style="width: @Model.Rating[3]%">3</div>
+                </div>
+                <div class="progress mb-2">
+                    <div class="progress-bar" role="progressbar" style="width: @Model.Rating[2]%">2</div>
+                </div>
+                <div class="progress mb-2">
+                    <div class="progress-bar" role="progressbar" style="width: @Model.Rating[1]%">1</div>
+                </div>
+            </div>
+        </div>
+        @if (Model.Rated)
+        {
+            <div class="h4 mt-3">
+                Thank you for your mark!
+            </div>
+        }
+        else
+        {
+            using (Html.BeginForm("SetRate", "News", FormMethod.Post, new { @class = "form my-2 my-lg-0 mr-5" }))
+            {
+                <label for="range" class="form-label">Leave mark from 1 to 5</label>
+                <div class="mb-4">
+                    <input id="range" class="form-control-range mr-3 mb-2" type="range" min="1" max="5" step="1" name="mark" onInput="$('#rangeval').html($(this).val())">
+                    <span id="rangeval">3</span>
+                </div>
+                <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Send mark" />
+                @Html.Hidden("ArticleId", Model.ArticleId)
+            }
+        }
+    </div>
+        <div class="card-footer text-muted">
+            <p class="card-text">
+                <small class="text-muted">Published: @Model.PublishingDate</small>
+                <small class="text-muted float-right">Published by: @Html.ActionLink(Model.Email, "UserProfile", "Account", new { userId = Model.UserId }, new { })</small>
+            </p>
+        </div>
+    </div>
+</div>
+<div id="addCommentConteiner" class="mt-4" style="width: 100%; padding-left: 10%; padding-right: 10%;">
+    @Ajax.ActionLink("Create comment", "CreateComment", "News", new { articleId = Model.ArticleId }, new AjaxOptions
+    {
+        HttpMethod = "GET",
+        UpdateTargetId = "addCommentConteiner"
+    }, new { @class = "btn btn-primary" })
+</div>
+<div class="mt-3">
+    @if (Model.Comments.Count() == 0)
+    {
+        <div class="alert alert-info">
+            No comments
+        </div>
+    }
+    else
+    {
+        <h3 class="mb-5">Comments (@Model.Comments.Count())</h3>
+        <div id="commentscontainer">
+            @Html.Partial("_CommentsPartial", Model.Comments.Take(10))
+        </div>
+        if (Model.Comments.Count() >= 10)
+        {
+            <div id="morelink"> <a href="#" onclick="loadMoreComments();">More comments</a></div>
+        }
+    }
+</div>
+
+<script type="text/javascript">
+
+    $(window).scroll(function () {
+        if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+            loadMoreComments();
+        }
+    });
+    var currentPage = 0;
+    function loadMoreComments() {
+
+        if (currentPage > -1) {
+            currentPage++;
+
+            $.ajax({
+                url: "/News/Comments",
+                type: "POST",
+                data: { articleId: @Model.ArticleId, page: currentPage },
+                dataType: "html",
+                beforeSend: function () {
+                    $('.msg').remove();
+                    $("#commentscontainer").append('<div class="msg alert alert-info" id="loadimage">Loading...</div>');
+                },
+                success: function (data) {
+                    $('.msg').remove();
+                    if (data.length != 0) {
+                        $("#commentscontainer").append(data);
+                        $('#morelink').show();
+                    } else {
+                        $('#morelink').hide();
+                        currentPage = -1;
+                        $("#commentscontainer").append('<div class="msg alert alert-info" id="alertmsg"> No more comments </div>');
+                    }
+                }
+            });
+
+        }
+    }
+
+</script>

@@ -1,0 +1,33 @@
+﻿@model NewsPortal.Web.ViewModels.SecurityDataViewModel
+
+<div class="container-fluid mt-5">
+    <table class="table">
+        <tr>
+            <td>@Html.LabelFor(model => model.Email)</td>
+            <td>@Html.DisplayFor(model => model.Email)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.CreatedDate)</td>
+            <td>@Html.DisplayFor(model => model.CreatedDate)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.Role)</td>
+            <td>@Html.DisplayFor(model => model.Role)</td>
+        </tr>
+    </table>
+    <div>
+        @Ajax.ActionLink("Edit security data", "EditSecurityData", "Account", null, new AjaxOptions
+        {
+            HttpMethod = "GET",
+            UpdateTargetId = "profileData"
+        }, new { @class = "btn btn-success" })
+
+        @Ajax.ActionLink("Change password", "ChangePassword", "Account", null, new AjaxOptions
+       {
+           HttpMethod = "GET",
+           UpdateTargetId = "profileData",
+           LoadingElementId = "loading",
+           LoadingElementDuration = 1000
+       }, new { @class = "btn btn-success" })
+    </div>
+</div>

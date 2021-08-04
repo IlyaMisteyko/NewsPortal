@@ -1,0 +1,21 @@
+﻿@using Microsoft.AspNet.Identity
+@model NewsPortal.Web.ViewModels.SecurityDataViewModel
+
+<div class="container-fluid mt-5">
+    <div class="row">
+        @using (Html.BeginForm())
+        {
+            @Html.ValidationSummary(true);
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
+            <div class="form-group mt-3">
+                <input type="submit" value="Save" class="btn btn-success" />
+                <input type="reset" value="Cancel" class="btn btn-light btn-outline-dark" onclick="window.location.href = '@Url.Action("PersonalProfile", "Account")'">
+            </div>
+            @Html.Hidden("UserId", User.Identity.GetUserId())
+        }
+    </div>
+</div>

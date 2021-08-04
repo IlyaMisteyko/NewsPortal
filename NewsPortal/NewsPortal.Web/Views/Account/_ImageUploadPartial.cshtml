@@ -1,0 +1,33 @@
+﻿@using Microsoft.AspNet.Identity
+@model NewsPortal.Web.ViewModels.ImageUploadViewModel
+
+@using (Html.BeginForm("ImageUpload", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div>
+        @Html.ValidationSummary(true)
+        <table class="mb-3">
+            <tr>
+                <td>
+                    @if (String.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img alt="Avatar" src="@Url.Content("~/Content/Avatars/default-avatar.png")" class="img-thumbnail shadow" style="width: 200px"/>
+                    }
+                    else
+                    {
+                        <img alt="Avatar" src="@Url.Content(Model.ImageUrl)" class="img-thumbnail shadow" style="width: 200px"/>
+                    }
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.File, new { @class = "mb-2", @type = "file" }) <br>
+                    <input type="submit" class="btn btn-success" value="Upload" />
+                    <input type="reset" value="Cancel" class="btn btn-light btn-outline-dark" onclick="window.location.href = '@Url.Action("PersonalProfile", "Account")'">
+                </td>
+            </tr>
+        <tr>
+            <td>
+                @Html.ValidationMessageFor(model => model.File)
+            </td>
+        </tr>
+        </table>
+    </div>
+}

@@ -1,0 +1,134 @@
+﻿@using Microsoft.AspNet.Identity
+@model NewsPortal.Web.ViewModels.UserProfileViewModel
+@{
+    ViewBag.Title = "User profile";
+}
+
+<div class="container-fluid mt-5">
+    <table class="table">
+        <thead class="table-primary">
+            <tr>
+                <th class="h3" colspan="1">
+                    User Information
+                </th>
+                @if (Model.UserId == User.Identity.GetUserId())
+                {
+                    <th></th>
+                }
+                else if (Model.IsFollowing == false)
+                {
+                    <th>
+                        @Html.ActionLink("Follow", "Follow", "Account", new { followingId = Model.UserId }, new { @class = "btn btn-primary float-right" })
+                    </th>
+                }
+                else
+                {
+                    <th>
+                        @Html.ActionLink("Unfollow", "Unfollow", "Account", new { followingId = Model.UserId }, new { @class = "btn btn-outline-primary float-right" })
+                    </th>
+                }
+                </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Html.LabelFor(model => model.AvatarUrl)</td>
+                <td>
+                    @if (String.IsNullOrEmpty(Model.AvatarUrl))
+                    {
+                        <img alt="Avatar" src="@Url.Content("~/Content/Avatars/default-avatar.png")" class="img-thumbnail shadow" style="width: 200px"/>
+                    }
+                    else
+                    {
+                        <img alt="Avatar" src="@Url.Content(Model.AvatarUrl)" class="img-thumbnail shadow" style="width: 200px"/>
+                    }
+                </td>
+            </tr>
+            @if (Model.FirstName != null)
+            {
+                <tr>
+                    <td>@Html.LabelFor(model => model.FirstName)</td>
+                    <td>@Html.DisplayFor(model => model.FirstName)</td>
+                </tr>
+
+            }
+            @if (Model.LastName != null)
+            {
+                <tr>
+                    <td>@Html.LabelFor(model => model.LastName)</td>
+                    <td>@Html.DisplayFor(model => model.LastName)</td>
+                </tr>
+
+            }
+            <tr>
+                <td>@Html.LabelFor(model => model.Email)</td>
+                <td>@Html.DisplayFor(model => model.Email)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.CreatedDate)</td>
+                <td>@Html.DisplayFor(model => model.CreatedDate)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(model => model.Activated)</td>
+                <td>@Html.DisplayFor(model => model.Activated)</td>
+            </tr>
+            @if (Model.Gender != null)
+            {
+                <tr>
+                    <td>@Html.LabelFor(model => model.Gender)</td>
+                    <td>
+                        @if (Model.Gender == true)
+                        {
+                            <text>Female</text>
+                        }
+                        else if (Model.Gender == false)
+                        {
+                            <text>Male</text>
+                        }
+                    </td>
+                </tr>
+            }
+            @if (Model.DateOfBirth != null)
+            {
+                <tr>
+                    <td>@Html.LabelFor(model => model.DateOfBirth)</td>
+                    <td>@Html.DisplayFor(model => model.DateOfBirth)</td>
+                </tr>
+            }
+            @if (Model.Adress != null)
+            {
+                <tr>
+                    <td>@Html.LabelFor(model => model.Adress)</td>
+                    <td>@Html.DisplayFor(model => model.Adress)</td>
+                </tr>
+            }
+            @if (Model.Country != null)
+            {
+                <tr>
+                    <td>@Html.LabelFor(model => model.Country)</td>
+                    <td>@Html.DisplayFor(model => model.Country)</td>
+                </tr>
+            }
+            @if (Model.City != null)
+            {
+                <tr>
+                    <td>@Html.LabelFor(model => model.City)</td>
+                    <td>@Html.DisplayFor(model => model.City)</td>
+                </tr>
+            }
+            @if (Model.PhoneNumber != null)
+            {
+                <tr>
+                    <td>@Html.LabelFor(model => model.PhoneNumber)</td>
+                    <td>@Html.DisplayFor(model => model.PhoneNumber)</td>
+                </tr>
+            }
+            @if (Model.Skype != null)
+            {
+                <tr>
+                    <td>@Html.LabelFor(model => model.Skype)</td>
+                    <td>@Html.DisplayFor(model => model.Skype)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

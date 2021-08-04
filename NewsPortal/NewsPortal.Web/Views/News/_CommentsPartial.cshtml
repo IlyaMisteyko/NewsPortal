@@ -1,0 +1,79 @@
+﻿@using Microsoft.AspNet.Identity
+@model IEnumerable<NewsPortal.Web.ViewModels.CommentViewModel>
+
+<div class="comments">
+    <ul class="media-list">
+        @foreach (var comment in Model)
+        {
+            <li class="media">@CommentTree(comment)</li>
+        }
+    </ul>
+</div>
+
+@helper CommentTree(NewsPortal.Web.ViewModels.CommentViewModel comment)
+{
+    <div class="media-left">
+        @if (String.IsNullOrEmpty(comment.AvatarUrl))
+        {
+            <img alt="Avatar" id ="preview" src="@Url.Content("~/Content/Avatars/default-avatar.png")" class="media-object img-thumbnail shadow mr-3"/>
+        }
+        else
+        {
+            <img alt="Avatar" id ="preview" src="@Url.Content(comment.AvatarUrl)" class="media-object img-thumbnail shadow mr-3"/>
+        }
+    </div>
+    <div class="media-body comment">
+        <div class="media-heading">
+            <div class="author">
+                @Html.ActionLink(comment.CommentOwner, "UserProfile", "Account", new { userId = comment.UserId }, null)
+                @if (User.Identity.GetUserId() == comment.UserId || User.IsInRole("admin"))
+                {
+                    @Html.ActionLink("Edit", "EditComment", "News", new { commentId = comment.CommentId }, new { @class = "viewDialog float-right", data_dialog_title = "Edit comment" })
+                    @Html.ActionLink("Delete", "DeleteComment", "News", new { commentId = comment.CommentId }, new { @class = "viewDialog float-right mr-2", data_dialog_title = "Delete comment" })
+                }
+            </div>
+            <div class="metadata">
+                <span class="date" style="color:gray;">@comment.PublishingDate</span>
+            </div>
+            <br />
+            <div class="media-text text-justify">
+                @comment.Message
+            </div>
+        </div>
+        <div class="footer-comment">
+            <div style="display: flex; flex-direction: row-reverse;">
+                <div>+@comment.LikesCount</div>
+                @Html.ActionLink("like", "Like", "News", new { commentId = comment.CommentId, articleId = comment.ArticleId }, new { @class = "btn btn-outline-danger mr-2" })
+                <button class="btn-sm btn-outline-primary reply-on-btn mr-2" onclick="onclickHandler(this)">reply on</button>
+            </div>
+            <div class="comment-form" style="display: none;">
+                @Html.Partial("_CreateCommentPartial", new NewsPortal.Web.ViewModels.CommentFormViewModel() { ArticleId = comment.ArticleId, ParentCommentId = comment.CommentId })
+            </div>
+        </div>
+        <hr>
+            @if (comment.ChildComments.Count != 0)
+            {
+                foreach (var c in comment.ChildComments)
+                {
+                    <div class="media">
+                        @CommentTree(c)
+                    </div>
+                }
+            }
+    </div>
+}
+
+<script type="text/javascript">
+
+    function onclickHandler(button) {
+        button.closest(".comment").querySelector(".comment-form").style.display = "block";
+        button.disabled = true;
+    }
+
+    function onCancelCommentHandler(button) {
+        button.closest(".comment").querySelector(".comment-form").style.display = "none";
+        button.closest(".comment").querySelector(".reply-on-btn").disabled = false;
+    }
+
+</script>
+<script src="@Url.Content("~/Scripts/customScripts/dialogScript.js")"></script>

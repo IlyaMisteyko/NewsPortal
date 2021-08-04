@@ -1,0 +1,63 @@
+﻿@model NewsPortal.Web.ViewModels.PersonalDataViewModel
+
+<div class="container-fluid mt-5">
+    @Html.Partial("_ImageUploadPartial", new NewsPortal.Web.ViewModels.ImageUploadViewModel() { ImageUrl = Model.AvatarUrl })
+    <table class="table">
+        <tr>
+            <td>@Html.LabelFor(model => model.FirstName)</td>
+            <td>@Html.DisplayFor(model => model.FirstName)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.LastName)</td>
+            <td>@Html.DisplayFor(model => model.LastName)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.Gender)</td>
+            <td>
+                @if (Model.Gender == true)
+                {
+                    <text>Female</text>
+                }
+                else if (Model.Gender == false)
+                {
+                    <text>Male</text>
+                } else
+                {
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.DateOfBirth)</td>
+            <td>@Html.DisplayFor(model => model.DateOfBirth)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.Adress)</td>
+            <td>@Html.DisplayFor(model => model.Adress)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.Country)</td>
+            <td>@Html.DisplayFor(model => model.Country)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.City)</td>
+            <td>@Html.DisplayFor(model => model.City)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.PhoneNumber)</td>
+            <td>@Html.DisplayFor(model => model.PhoneNumber)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.Skype)</td>
+            <td>@Html.DisplayFor(model => model.Skype)</td>
+        </tr>
+    </table>
+    <div>
+       @Ajax.ActionLink("Edit personal data", "EditPersonalData", "Account", Model, new AjaxOptions
+      {
+          HttpMethod = "GET",
+          UpdateTargetId = "profileData",
+          LoadingElementId = "loading",
+          LoadingElementDuration = 1000
+      }, new { @class = "btn btn-success" })
+    </div>
+</div>

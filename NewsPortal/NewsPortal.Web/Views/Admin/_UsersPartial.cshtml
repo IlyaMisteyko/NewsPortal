@@ -1,0 +1,57 @@
+﻿@model IEnumerable<NewsPortal.Web.ViewModels.AdminUserViewModel>
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>E-mail</th>
+            <th>Role</th>
+            <th>State</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>@user.Role</td>
+                <td>
+                    @if (user.State)
+                    {
+                        <text>Active</text>
+                    }
+                    else
+                    {
+                        <text>Block</text>
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("Change role", "ChangeRole", "Admin", new { userId = user.UserId },
+                        new { @class = "viewDialog", data_dialog_title = "Change role" })
+                </td>
+                <td>
+                    @if (user.State)
+                    {
+                        @Ajax.ActionLink("Block", "ChangeUserState", "Admin", new { userId = user.UserId },
+                            new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "adminPanel", Confirm = "Block this user?" }, 
+                            new { @class = "btn btn-sm btn-outline-primary" })
+                    }
+                    else
+                    {
+                        @Ajax.ActionLink("Unblock", "ChangeUserState", "Admin", new { userId = user.UserId },
+                            new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "adminPanel", Confirm = "Unblock this user?" },
+                            new { @class = "btn btn-sm btn-outline-primary" })
+                    }
+                </td>
+                <td>
+                    @Ajax.ActionLink("Delete", "DeleteUser", "Admin", new { userId = user.UserId },
+                            new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "adminPanel", Confirm = "Delete this user?" },
+                            new { @class = "btn btn-sm btn-outline-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script src="@Url.Content("~/Scripts/customScripts/dialogScript.js")"></script>

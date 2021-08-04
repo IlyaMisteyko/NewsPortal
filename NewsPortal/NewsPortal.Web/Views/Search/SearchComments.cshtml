@@ -1,0 +1,59 @@
+﻿@model IEnumerable<NewsPortal.Web.ViewModels.SearchCommentViewModel>
+@{
+    ViewBag.Title = "Search comments";
+}
+
+<div class="h2 mt-3">
+    Results for "@ViewBag.SearchString" in comments
+</div>
+<div class="mb-3">
+    @using (Html.BeginForm("SearchComments", "Search", FormMethod.Get, new { @class = "form-inline my-2 my-lg-0 mr-5" }))
+    {
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" name="searchString">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    }
+</div>
+<div>
+    @if (Model.Count() == 0)
+    {
+        <div class="alert alert-info mt-3">
+            No results
+        </div>
+    }
+    else
+    {
+        foreach (var comment in Model)
+        {
+            <div class="media">
+                <div class="media-left">
+                    @if (String.IsNullOrEmpty(comment.AvatarUrl))
+                    {
+                        <img alt="Avatar" src="@Url.Content("~/Content/Avatars/default-avatar.png")" class="media-object img-thumbnail shadow mr-3"/>
+                    }
+                    else
+                    {
+                        <img alt="Avatar" src="@Url.Content(comment.AvatarUrl)" class="media-object img-thumbnail shadow mr-3"/>
+                    }
+                </div>
+                <div class="media-body comment">
+                    <div class="media-heading">
+                        <div class="author">
+                                @Html.ActionLink(comment.CommentOwner, "UserProfile", "Account", new { userId = comment.UserId }, null)
+                        </div>
+                        <div class="metadata">
+                            <span class="date" style="color:gray;">@comment.PublishingDate</span>
+                        </div>
+                        <br />
+                        <div class="media-text text-justify">
+                            @comment.Message
+                        </div>
+                    </div>
+                    <div class="footer-comment">
+
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        }
+    }
+</div>

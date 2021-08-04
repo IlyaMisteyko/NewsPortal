@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Personal profile";
+}
+<div class="text-success mt-2 mb-2">@ViewBag.Status</div>
+<div>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            @Ajax.ActionLink("Personal data", "PersonalData", "Account", null, new AjaxOptions
+            {
+                HttpMethod = "GET",
+                UpdateTargetId = "profileData",
+                LoadingElementId = "loading",
+                LoadingElementDuration = 1000
+            }, new { @class = "nav-link" })
+        </li>
+        <li class="nav-item">
+            @Ajax.ActionLink("Security data", "SecurityData", "Account", null, new AjaxOptions
+           {
+               HttpMethod = "GET",
+               UpdateTargetId = "profileData",
+               LoadingElementId = "loading",
+               LoadingElementDuration = 1000
+           }, new { @class = "nav-link" })
+        </li>
+    </ul>
+</div>
+
+<div id="loading" class="spinner-border" role="status">
+    <span class="sr-only">Please wait ...</span>
+</div>
+<div id="profileData">
+</div>

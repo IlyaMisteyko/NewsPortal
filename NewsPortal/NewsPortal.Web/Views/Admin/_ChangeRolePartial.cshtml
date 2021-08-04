@@ -1,0 +1,14 @@
+﻿@model NewsPortal.Web.ViewModels.AdminUserViewModel
+<div>
+    @using (Ajax.BeginForm("ChangeRole", "Admin", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "adminPanel", OnSuccess = "closeDialog" }))
+    {
+        <div class="form-group">
+            @Html.DropDownListFor(user => user.RoleId, Model.Roles as SelectList, null, new { @class = "form-control" })
+        </div>
+        <input type="submit" class="btn btn-success" value="Change">
+
+        @Html.Hidden("UserId", Model.UserId)
+        @Html.Hidden("Email", Model.Email)
+        @Html.Hidden("Role", Model.Role)
+    }
+</div>

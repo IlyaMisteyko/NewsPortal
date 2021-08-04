@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - News portal</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+</head>
+<body>
+    <div>
+        @Html.Partial("_Header")
+    </div>
+    <div class="container-fluid mt-3">
+        <div class="row">
+            <div class="col-md-2 mt-5">
+                @Html.Partial("_LeftMenu")
+            </div>
+            <div class="col-md-8">
+                @RenderBody()
+            </div>
+            <div class="col-md-2 mt-5">
+                @Html.Partial("_RightMenu")
+            </div>
+        </div>
+        <hr />
+        <footer>
+            <p>&copy; News portal app - @DateTime.Now.Year</p>
+        </footer>
+    </div>
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

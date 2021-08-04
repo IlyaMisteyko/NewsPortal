@@ -1,0 +1,51 @@
+﻿@model IEnumerable<NewsPortal.Web.ViewModels.SearchArticleViewModel>
+@{
+    ViewBag.Title = "Search articles";
+}
+
+<div class="h2 mt-3">
+    Results for "@ViewBag.SearchString" in articles
+</div>
+@using (Html.BeginForm("SearchArticles", "Search", FormMethod.Get, new { @class = "form-inline my-2 my-lg-0 mr-5" }))
+{
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" name="searchString">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+}
+<div>
+    @if (Model.Count() == 0)
+    {
+        <div class="alert alert-info mt-3">
+            No results
+        </div>
+    }
+    else
+    {
+        <div class="container-fluid mt-5">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Date of publishing</th>
+                        <th scope="col">Average rating</th>
+                        <th scope="col">Link</th>
+                        <th scope="col">Creator</th>
+                    </tr>
+                </thead>
+                <thead>
+                    @foreach (var article in Model)
+                    {
+                        <tr>
+                            <td>@article.Title</td>
+                            <td>@article.Category</td>
+                            <td>@article.PublishingDate</td>
+                            <td>@article.AverageRating</td>
+                            <td>@Html.ActionLink("Read news", "Index", "News", new { article.ArticleId }, null)</td>
+                            <td>@Html.ActionLink(article.UserName, "UserProfile", "Account", new { article.UserId }, null)</td>
+                        </tr>
+                    }
+                </thead>
+            </table>
+        </div>
+    }
+</div>

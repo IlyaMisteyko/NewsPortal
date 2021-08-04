@@ -1,0 +1,27 @@
+﻿@model IEnumerable<NewsPortal.Web.ViewModels.AdminArticleViewModel>
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Date of publishing</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var article in Model)
+        {
+            <tr>
+                <td>@article.Title</td>
+                <td>@article.Category</td>
+                <td>@article.PublishingDate</td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "News", new { articleId = article.ArticleId },
+                        new { @class = "btn btn-sm btn-outline-success" })
+
+                    @Html.ActionLink("Delete", "Delete", "News", new { articleId = article.ArticleId }, new { @class = "btn btn-sm btn-outline-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

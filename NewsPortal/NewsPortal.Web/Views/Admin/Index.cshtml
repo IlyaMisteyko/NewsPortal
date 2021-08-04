@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "Admin panel";
+}
+<div class="btn-group btn-group-lg mb-2">
+    @Ajax.ActionLink("Users", "GetAllUsers", "Admin", null, new AjaxOptions
+    {
+        HttpMethod = "GET",
+        UpdateTargetId = "adminPanel"
+    }, new { @class = "btn btn-primary" })
+
+    @Ajax.ActionLink("Articles", "GetAllArticles", "Admin", null, new AjaxOptions
+    {
+        HttpMethod = "GET",
+        UpdateTargetId = "adminPanel"
+    }, new { @class = "btn btn-primary" })
+</div>
+<div id="adminPanel">
+    @Html.Partial("_UsersPartial")
+</div>
