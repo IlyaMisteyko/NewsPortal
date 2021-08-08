@@ -6,10 +6,10 @@ namespace NewsPortal.Logic.Common.Services
     public interface IArticleService
     {
         Article GetArticleById(int articleId);
-        IEnumerable<Article> GetArticles();
-        IEnumerable<Article> GetArticlesByUser(string userId);
-        IEnumerable<Article> GetArticlesByFollowings(IEnumerable<ApplicationUser> followings);
-        IEnumerable<Article> SearchArticles(string search);
+        IList<Article> GetArticles();
+        IList<Article> GetArticlesByUser(string userId);
+        IList<Article> GetArticlesByFollowings(IEnumerable<ApplicationUser> followings);
+        IList<Article> SearchArticles(string search);
         void CreateArticle(Article article);
         void UpdateArticle(Article article);
         void DeleteArticle(int articleId);

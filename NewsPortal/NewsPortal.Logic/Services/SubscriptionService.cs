@@ -24,7 +24,7 @@ namespace NewsPortal.Logic.Services
             return _unitOfWork.Subscriptions.Get(subscription => subscription.FollowingId == followingId && subscription.FollowerId == followerId) != null;
         }
 
-        public IEnumerable<ApplicationUser> GetFollowers(string userId)
+        public IList<ApplicationUser> GetFollowers(string userId)
         {
             List<ApplicationUser> followers = new List<ApplicationUser>();
 
@@ -36,7 +36,7 @@ namespace NewsPortal.Logic.Services
             return followers;
         }
 
-        public IEnumerable<ApplicationUser> GetFollowers(string userId, int page, int entityCount)
+        public IList<ApplicationUser> GetFollowers(string userId, int page, int entityCount)
         {
             int skip = entityCount * page;
             List<ApplicationUser> followers = new List<ApplicationUser>();
@@ -50,7 +50,7 @@ namespace NewsPortal.Logic.Services
             return followers;
         }
 
-        public IEnumerable<ApplicationUser> GetFollowings(string userId)
+        public IList<ApplicationUser> GetFollowings(string userId)
         {
             List<ApplicationUser> followings = new List<ApplicationUser>();
 
@@ -62,7 +62,7 @@ namespace NewsPortal.Logic.Services
             return followings;
         }
 
-        public IEnumerable<ApplicationUser> GetFollowings(string userId, int page, int entityCount)
+        public IList<ApplicationUser> GetFollowings(string userId, int page, int entityCount)
         {
             int skip = entityCount * page;
             List<ApplicationUser> followings = new List<ApplicationUser>();

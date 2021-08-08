@@ -4,6 +4,7 @@ using NewsPortal.Logic.Common.Services;
 using NewsPortal.Model.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NewsPortal.Logic.Services
 {
@@ -24,9 +25,9 @@ namespace NewsPortal.Logic.Services
             return _unitOfWork.RoleManager.FindById(roleId).Name;
         }
 
-        public IEnumerable<ApplicationRole> GetAllRoles()
+        public IList<ApplicationRole> GetAllRoles()
         {
-            return _unitOfWork.RoleManager.Roles;
+            return _unitOfWork.RoleManager.Roles.ToList();
         }
 
         #endregion

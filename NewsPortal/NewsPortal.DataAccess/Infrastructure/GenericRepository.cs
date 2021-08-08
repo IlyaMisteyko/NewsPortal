@@ -53,17 +53,22 @@ namespace NewsPortal.DataAccess.Infrastructure
 
         public T Get(Expression<Func<T, bool>> where)
         {
-            return _dbSet.Where<T>(where).FirstOrDefault<T>();
+            return _dbSet.AsQueryable().Where<T>(where).FirstOrDefault<T>();
         }
 
-        public IEnumerable<T> GetAll()
+        public IList<T> GetAll()
         {
             return _dbSet.ToList();
         }
 
-        public IEnumerable<T> GetMany(Expression<Func<T, bool>> where)
+        public IList<T> GetMany(Expression<Func<T, bool>> where)
         {
-            return _dbSet.Where(where).ToList();
+            return _dbSet.AsQueryable().Where(where).ToList();
+        }
+
+        protected DbSet<T> GetDbSet()
+        {
+            return _dbSet;
         }
     }
 }

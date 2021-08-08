@@ -6,91 +6,53 @@ using NewsPortal.Model.Models;
 using NewsPortal.DataAccess.Common.Repositories;
 using NewsPortal.DataAccess.Context;
 using NewsPortal.DataAccess.Common.Identity;
-using NewsPortal.DataAccess.Repositories;
+using Microsoft.AspNet.Identity;
 
 namespace NewsPortal.DataAccess.Infrastructure
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private NewsPortalEntities _dataContext;
-        private ApplicationUserManager _userManager;
-        private ApplicationRoleManager _roleManager;
-        private IArticleRepository _articleRepository;
-        private ICommentRepository _commentRepository;
-        private ILikeRepository _likeRepository;
-        private IRateRepository _rateRepository;
-        private ISubscriptionRepository _subscriptionRepository;
-        private IUserProfileRepository _userProfileRepository;
+        private readonly NewsPortalEntities _dataContext;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly IArticleRepository _articleRepository;
+        private readonly ICommentRepository _commentRepository;
+        private readonly ILikeRepository _likeRepository;
+        private readonly IRateRepository _rateRepository;
+        private readonly ISubscriptionRepository _subscriptionRepository;
+        private readonly IUserProfileRepository _userProfileRepository;
 
-        public UnitOfWork()
+        public UnitOfWork(NewsPortalEntities newsPortalEntities, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager,
+            IArticleRepository articleRepository, ICommentRepository commentRepository, 
+            ILikeRepository likeRepository, IRateRepository rateRepository, ISubscriptionRepository subscriptionRepository,
+            IUserProfileRepository userProfileRepository)
         {
-            _dataContext = new NewsPortalEntities();
-            _userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(_dataContext));
-            _roleManager = new ApplicationRoleManager(new RoleStore<ApplicationRole>(_dataContext));
+            _dataContext = newsPortalEntities;
+            _userManager = userManager;
+            _roleManager = roleManager;
+
+            _articleRepository = articleRepository ?? throw new ArgumentNullException(nameof(articleRepository));
+            _commentRepository = commentRepository ?? throw new ArgumentNullException(nameof(commentRepository));
+            _likeRepository = likeRepository ?? throw new ArgumentNullException(nameof(likeRepository));
+            _rateRepository = rateRepository ?? throw new ArgumentNullException(nameof(rateRepository));
+            _subscriptionRepository = subscriptionRepository ?? throw new ArgumentNullException(nameof(subscriptionRepository));
+            _userProfileRepository = userProfileRepository ?? throw new ArgumentNullException(nameof(userProfileRepository));
         }
 
-        public ApplicationUserManager UserManager => _userManager;
-        public ApplicationRoleManager RoleManager => _roleManager;
+        public UserManager<ApplicationUser> UserManager => _userManager;
+        public RoleManager<ApplicationRole> RoleManager => _roleManager;
 
-        public IArticleRepository Articles
-        {
-            get
-            {
-                if (_articleRepository == null)
-                    _articleRepository = new ArticleRepository(_dataContext);
-                return _articleRepository;
-            }
-        }
+        public IArticleRepository Articles => _articleRepository;
 
-        public ICommentRepository Comments
-        {
-            get
-            {
-                if (_commentRepository == null)
-                    _commentRepository = new CommentRepository(_dataContext);
-                return _commentRepository;
-            }
-        }
+        public ICommentRepository Comments => _commentRepository;
 
-        public ILikeRepository Likes
-        {
-            get
-            {
-                if (_likeRepository == null)
-                    _likeRepository = new LikeRepository(_dataContext);
-                return _likeRepository;
-            }
-        }
+        public ILikeRepository Likes => _likeRepository;
 
-        public IRateRepository Rates
-        {
-            get
-            {
-                if (_rateRepository == null)
-                    _rateRepository = new RateRepository(_dataContext);
-                return _rateRepository;
-            }
-        }
+        public IRateRepository Rates => _rateRepository;
 
-        public ISubscriptionRepository Subscriptions
-        {
-            get
-            {
-                if (_subscriptionRepository == null)
-                    _subscriptionRepository = new SubscriptionRepository(_dataContext);
-                return _subscriptionRepository;
-            }
-        }
+        public ISubscriptionRepository Subscriptions => _subscriptionRepository;
 
-        public IUserProfileRepository UserProfiles
-        {
-            get
-            {
-                if (_userProfileRepository == null)
-                    _userProfileRepository = new UserProfileRepository(_dataContext);
-                return _userProfileRepository;
-            }
-        }
+        public IUserProfileRepository UserProfiles => _userProfileRepository;
 
         public void Save()
         {

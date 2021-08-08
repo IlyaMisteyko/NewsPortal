@@ -2,6 +2,8 @@
 using NewsPortal.Model.Models;
 using NewsPortal.DataAccess.ModelConfiguration;
 using System.Data.Entity;
+using System;
+using System.Diagnostics;
 
 namespace NewsPortal.DataAccess.Context
 {
@@ -17,7 +19,7 @@ namespace NewsPortal.DataAccess.Context
         public NewsPortalEntities()
             : base("NewsPortalEntities")
         {
-            
+            Database.Log = (e) => { Debug.WriteLine(e); };
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

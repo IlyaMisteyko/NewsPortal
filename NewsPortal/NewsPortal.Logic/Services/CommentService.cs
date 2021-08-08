@@ -23,17 +23,17 @@ namespace NewsPortal.Logic.Services
             return _unitOfWork.Comments.GetById(commentId);
         }
 
-        public IEnumerable<Comment> GetCommentsByArticleId(int articleId)
+        public IList<Comment> GetCommentsByArticleId(int articleId)
         {
             return _unitOfWork.Comments.GetMany(comment => comment.ArticleId == articleId).OrderByDescending(date => date.PublishingDate).ToList();
         }
 
-        public IEnumerable<Comment> GetTop10Comments(int articleId)
+        public IList<Comment> GetTop10Comments(int articleId)
         {
             return SortComments(_unitOfWork.Comments.GetMany(comment => comment.ArticleId == articleId && comment.ParentCommentId == null));
         }
 
-        public IEnumerable<Comment> GetComments(int articleId, int page, int entityCount)
+        public IList<Comment> GetComments(int articleId, int page, int entityCount)
         {
             int skip = entityCount * page;
 
@@ -41,10 +41,10 @@ namespace NewsPortal.Logic.Services
 
             comments = SortComments(comments);
 
-            return comments.Skip(skip).Take(entityCount);
+            return comments.Skip(skip).Take(entityCount).ToList();
         }
 
-        private IEnumerable<Comment> SortComments(IEnumerable<Comment> comments)
+        private IList<Comment> SortComments(IEnumerable<Comment> comments)
         {
             if (comments.Count() != 0)
             {
@@ -54,10 +54,10 @@ namespace NewsPortal.Logic.Services
                     comment.ChildComments = SortComments(comment.ChildComments).ToList();
             }
 
-            return comments;
+            return comments.ToList();
         }
 
-        public IEnumerable<Comment> SearchComments(string search)
+        public IList<Comment> SearchComments(string search)
         {
             return _unitOfWork.Comments
                 .GetMany(comment => comment.Message.ToLower().Contains(search.ToLower()))

@@ -24,10 +24,12 @@ namespace NewsPortal.Logic.Services
             return _unitOfWork.Rates.Get(rate => rate.ArticleId == articleId && rate.UserId == userId) != null;
         }
 
-        public Dictionary<int, string> GetRating(int articleId)
+        public IDictionary<int, string> GetRating(int articleId)
         {
-            var average = (double)_unitOfWork.Rates.GetMany(rate => rate.ArticleId == articleId).Count();
-            if (average == 0)
+            var ratesCount = _unitOfWork.Rates.GetRatesCount(rate => rate.ArticleId == articleId);
+            var totalRates = ratesCount.Sum(item => item.Value);
+
+            if (totalRates == 0)
             {
                 return new Dictionary<int, string>
                 {
@@ -42,19 +44,19 @@ namespace NewsPortal.Logic.Services
 
             return new Dictionary<int, string>
             {
-                [0] = average.ToString(),
-                [1] = (_unitOfWork.Rates.GetMany(rate => rate.ArticleId == articleId && rate.Mark == 1).Count() / average * 100).ToString("#"),
-                [2] = (_unitOfWork.Rates.GetMany(rate => rate.ArticleId == articleId && rate.Mark == 2).Count() / average * 100).ToString("#"),
-                [3] = (_unitOfWork.Rates.GetMany(rate => rate.ArticleId == articleId && rate.Mark == 3).Count() / average * 100).ToString("#"),
-                [4] = (_unitOfWork.Rates.GetMany(rate => rate.ArticleId == articleId && rate.Mark == 4).Count() / average * 100).ToString("#"),
-                [5] = (_unitOfWork.Rates.GetMany(rate => rate.ArticleId == articleId && rate.Mark == 5).Count() / average * 100).ToString("#")
+                [0] = totalRates.ToString(),
+                [1] = (ratesCount.ContainsKey(1) ? ratesCount[1] : 0 / totalRates * 100).ToString("#"),
+                [2] = (ratesCount.ContainsKey(2) ? ratesCount[2] : 0 / totalRates * 100).ToString("#"),
+                [3] = (ratesCount.ContainsKey(3) ? ratesCount[3] : 0 / totalRates * 100).ToString("#"),
+                [4] = (ratesCount.ContainsKey(4) ? ratesCount[4] : 0 / totalRates * 100).ToString("#"),
+                [5] = (ratesCount.ContainsKey(5) ? ratesCount[5] : 0 / totalRates * 100).ToString("#")
             };
         }
 
         public string GetAverageRating(int articleId)
         {
-            var average = _unitOfWork.Rates.GetMany(rate => rate.ArticleId == articleId);
-            return average.Count() == 0 ? "0" : average.Average(rate => rate.Mark).ToString("#.##");
+            var averageRating = _unitOfWork.Rates.GetAverageRating(rate => rate.ArticleId == articleId);
+            return averageRating == 0 ? "0" : averageRating.ToString("#.##");
         }
 
         public void CreateRate(Rate rate)

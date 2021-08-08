@@ -6,6 +6,6 @@ namespace NewsPortal.Logic.Common.Services
     public interface IRoleService
     {
         string GetUserRole(string roleId);
-        IEnumerable<ApplicationRole> GetAllRoles();
+        IList<ApplicationRole> GetAllRoles();
     }
 }

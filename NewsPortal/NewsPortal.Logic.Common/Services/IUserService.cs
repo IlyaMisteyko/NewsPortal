@@ -12,10 +12,10 @@ namespace NewsPortal.Logic.Common.Services
         Task<ApplicationUser> GetUserById(string userId);
         Task<ApplicationUser> GetUser(string userId, string email);
         Task<ApplicationUser> GetUserByEmail(string email);
-        IEnumerable<ApplicationUser> GetUsers();
+        IList<ApplicationUser> GetUsers();
         void SaveAvatar(string userId, string path);
         Task<OperationDetails> ChangePassword(string userId, string oldPassword, string newPassword);
-        IEnumerable<ApplicationUser> SearchUsers(string search);
+        IList<ApplicationUser> SearchUsers(string search);
         void ChangeRole(string userId, string oldRole, string newRole);
         Task<OperationDetails> CreateUser(ApplicationUser user, string password);
         void UpdateUser(ApplicationUser user);

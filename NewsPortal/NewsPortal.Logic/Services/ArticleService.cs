@@ -24,19 +24,20 @@ namespace NewsPortal.Logic.Services
             return _unitOfWork.Articles.GetById(articleId);
         }
 
-        public IEnumerable<Article> GetArticles()
+        public IList<Article> GetArticles()
         {
             return _unitOfWork.Articles.GetAll()
                 .OrderByDescending(article => article.Rates.Count == 0 ? 0 : article.Rates.Average(rate => rate.Mark))
-                .ThenBy(date => date.PublishingDate).ToList();
+                .ThenBy(date => date.PublishingDate)
+                .ToList();
         }
 
-        public IEnumerable<Article> GetArticlesByUser(string userId)
+        public IList<Article> GetArticlesByUser(string userId)
         {
             return _unitOfWork.Articles.GetMany(article => article.UserId == userId).OrderByDescending(date => date.PublishingDate).ToList();
         }
 
-        public IEnumerable<Article> GetArticlesByFollowings(IEnumerable<ApplicationUser> followings)
+        public IList<Article> GetArticlesByFollowings(IEnumerable<ApplicationUser> followings)
         {
             var articles = new List<Article>();
 
@@ -47,15 +48,17 @@ namespace NewsPortal.Logic.Services
 
             return articles
                 .OrderByDescending(article => article.Rates.Count == 0 ? 0 : article.Rates.Average(rate => rate.Mark))
-                .ThenBy(date => date.PublishingDate);
+                .ThenBy(date => date.PublishingDate)
+                .ToList();
         }
 
-        public IEnumerable<Article> SearchArticles(string search)
+        public IList<Article> SearchArticles(string search)
         {
             return _unitOfWork.Articles
                 .GetMany(article => article.Title.ToLower().Contains(search.ToLower()) || article.Description.ToLower().Contains(search.ToLower()))
                 .OrderByDescending(article => article.PublishingDate)
-                .ThenBy(article => article.Title).ToList();
+                .ThenBy(article => article.Title)
+                .ToList();
         }
         public void CreateArticle(Article article)
         {

@@ -13,7 +13,7 @@ namespace NewsPortal.DataAccess.Common.Infrastructure
         T GetById(int id);
         T GetById(string id);
         T Get(Expression<Func<T, bool>> where);
-        IEnumerable<T> GetAll();
-        IEnumerable<T> GetMany(Expression<Func<T, bool>> where);
+        IList<T> GetAll();
+        IList<T> GetMany(Expression<Func<T, bool>> where);
     }
 }

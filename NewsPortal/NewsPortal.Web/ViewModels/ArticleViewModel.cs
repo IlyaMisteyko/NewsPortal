@@ -12,7 +12,7 @@ namespace NewsPortal.Web.ViewModels
         public DateTime PublishingDate { get; set; }
         public string AverageRating { get; set; }
         public bool Rated { get; set; }
-        public Dictionary<int, string> Rating { get; set; }
+        public IDictionary<int, string> Rating { get; set; }
         public string UserId { get; set; }
         public string Email { get; set; }
         public string ImageUrl { get; set; }

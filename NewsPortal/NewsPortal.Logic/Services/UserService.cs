@@ -51,7 +51,7 @@ namespace NewsPortal.Logic.Services
             return await _unitOfWork.UserManager.FindByEmailAsync(email);
         }
 
-        public IEnumerable<ApplicationUser> GetUsers()
+        public IList<ApplicationUser> GetUsers()
         {
             return _unitOfWork.UserManager.Users.OrderBy(user => user.Email).ToList();
         }
@@ -73,7 +73,7 @@ namespace NewsPortal.Logic.Services
             return new OperationDetails(true, "Password was changed successfully!", "");
         }
 
-        public IEnumerable<ApplicationUser> SearchUsers(string search)
+        public IList<ApplicationUser> SearchUsers(string search)
         {
             return _unitOfWork.UserManager.Users
                 .Where(user => user.Profile.FirstName.Contains(search) || user.Profile.LastName.Contains(search) || user.Email.Contains(search))
